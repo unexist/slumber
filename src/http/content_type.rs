@@ -12,6 +12,7 @@ use mime::{Mime, APPLICATION, JSON};
 use reqwest::header::{self, HeaderValue};
 use serde::{Deserialize, Serialize};
 use std::{borrow::Cow, ffi::OsStr, fmt::Debug, path::Path};
+use colored_json::to_colored_json_auto;
 
 /// All supported content types. Each variant should have a corresponding
 /// implementation of [ResponseContent].
@@ -149,7 +150,9 @@ impl ResponseContent for Json {
 
     fn prettify(&self) -> String {
         // serde_json can't fail serializing its own Value type
-        serde_json::to_string_pretty(&self.0).unwrap()
+        let val = serde_json::to_string_pretty(&self.0).unwrap();
+
+        to_colored_json_auto(&val).unwrap()
     }
 
     fn to_json(&self) -> Cow<'_, serde_json::Value> {
