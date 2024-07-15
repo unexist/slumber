@@ -150,9 +150,9 @@ impl ResponseContent for Json {
 
     fn prettify(&self) -> String {
         // serde_json can't fail serializing its own Value type
-        let val = serde_json::to_string_pretty(&self.0).unwrap();
+        //let val = serde_json::to_string_pretty(&self.0).unwrap();
 
-        to_colored_json_auto(&val).unwrap()
+        to_colored_json_auto(&self.0).unwrap()
     }
 
     fn to_json(&self) -> Cow<'_, serde_json::Value> {
